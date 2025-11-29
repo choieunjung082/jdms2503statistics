@@ -156,7 +156,7 @@ D2 셀에 다음 수식을 입력합니다.
 # 3. 엑셀 함수 정리표
 # -------------------------------
 
-st.subheader("# 3. 엑셀에서 똑같이 계산해 보기")
+st.subheader("3. 엑셀에서 똑같이 계산해 보기")
 
 st.markdown(
 """
@@ -208,11 +208,11 @@ st.dataframe(excel_table, use_container_width=True)
 # 4. 엑셀 함수 미니 퀴즈
 # -------------------------------
 
-st.subheader("# 4. 엑셀 함수 미니 퀴즈")
+st.subheader("4. 엑셀 함수 미니 퀴즈")
 
 st.markdown("엑셀 시트에서 사용할 함수 이름을 맞혀 보세요. (영어로 적어 봅니다.)")
 
-Q1 전체 평균
+# Q1 전체 평균
 
 st.markdown("Q1. 전체평균은? \n수학 점수의 전체 평균을 구하는 함수 이름은?")
 q1 = st.text_input("예: AVERAGE / MAX / MIN 중 하나", key="q1")
@@ -224,7 +224,7 @@ st.error("전체 평균은 AVERAGE 함수로 구합니다.")
 
 st.markdown("---")
 
-Q2 중간값
+# Q2 중간값
 
 st.markdown("Q2. 중간값은? \n점수를 작은 순서대로 정렬했을 때 '가운데 값'을 구하는 함수 이름은?")
 q2 = st.text_input("예: MEDIAN / MODE.SNGL / ...", key="q2")
@@ -236,7 +236,7 @@ st.error("중간값은 MEDIAN 함수입니다.")
 
 st.markdown("---")
 
-Q3 최빈값
+# Q3 최빈값
 
 st.markdown("Q3. 최빈값은? \n가장 많이 나온 점수를 구하는 함수 이름은?")
 q3 = st.text_input("예: MODE.SNGL / AVERAGE / ...", key="q3")
@@ -248,7 +248,7 @@ st.error("최빈값은 MODE.SNGL 함수입니다.")
 
 st.markdown("---")
 
-Q4 분산
+# Q4 분산
 
 st.markdown("Q4. 분산은? \n점수들이 평균에서 얼마나 퍼져 있는지를 나타내는 '표본 분산'을 구하는 함수 이름은?")
 q4 = st.text_input("예: VAR.S / STDEV.S / ...", key="q4")
@@ -260,7 +260,7 @@ st.error("분산(표본)을 구할 때는 VAR.S 함수를 주로 사용합니다
 
 st.markdown("---")
 
-Q5 90점 이상
+# Q5 90점 이상
 
 st.markdown("Q5. 성적(90점 이상)은 몇 명인가? \n90점 이상 학생 수를 셀 때 사용할 함수 이름은?")
 q5 = st.text_input("예: COUNT / COUNTIF / SUM", key="q5")
@@ -272,7 +272,7 @@ st.error("조건을 만족하는 개수를 셀 때는 COUNTIF 함수를 사용�
 
 st.markdown("---")
 
-Q6 59점 이하
+# Q6 59점 이하
 
 st.markdown("Q6. 59점 이하는 몇 명인가? \n59점 이하 학생 수를 셀 때도 같은 함수 이름을 쓰겠죠?")
 q6 = st.text_input("예: COUNT / COUNTIF / SUM", key="q6")
