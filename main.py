@@ -278,7 +278,7 @@ st.markdown("Q6. 59점 이하는 몇 명인가? \n59점 이하 학생 수를 셀
 q6 = st.text_input("예: COUNT / COUNTIF / SUM", key="q6")
 if q6:
     if q6.strip().upper() == "COUNTIF":
-        st.success("정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,"<=59")")
+        st.success('정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,"<=59")')
     else:
         st.error("조건이 있는 개수 세기는 모두 COUNTIF 함수입니다.")
 
