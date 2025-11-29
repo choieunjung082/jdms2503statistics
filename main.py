@@ -108,6 +108,24 @@ st.write("엑셀에서 B열에 그대로 입력해서 사용할 예시 점수입
 st.dataframe(df, use_container_width=True)
 st.info("엑셀에서는 보통 A열에 번호, B열에 수학 점수를 입력한 뒤 활동을 시작합니다.")
 
+# 엑셀 모양으로 보여줄 표: 편차 열과 맨 아래 평균 행 추가
+df_display = df.copy()
+df_display["편차"] = ""  # 학생이 엑셀에서 직접 계산할 열
+
+df_display["번호"] = df_display["번호"].astype(str)
+df_display["수학"] = df_display["수학"].astype(str)
+
+# 맨 아래에 '평균' 행 추가 (학생이 B35 셀에 =AVERAGE(B2:B34) 입력)
+df_display.loc[len(df_display)] = ["평균", "", ""]
+
+st.write("엑셀에서 사용할 예시 점수 표입니다. 맨 아래 행에 평균을 직접 구해 보세요.")
+st.dataframe(df_display, use_container_width=True)
+
+st.info(
+    "엑셀에서는 A열에 번호, B열에 수학, C열에 편차를 두고, "
+    "맨 아래 '평균' 행의 B35 셀에 =AVERAGE(B2:B34)를 입력하도록 안내합니다."
+)
+
 with st.expander("정답 확인용 (편차·편차의 제곱·등수까지 보기)"):
     st.dataframe(df_answer, use_container_width=True)
     st.caption("수업 중에는 닫아두고, 교사용 확인용으로만 쓰면 좋습니다.")
