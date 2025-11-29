@@ -225,7 +225,7 @@ st.markdown("---")
 st.markdown("Q3. 최빈값은? \n가장 많이 나온 점수를 구하면?")
 q3 = st.text_input("가장 많이 나온 점수를 구하는 함수 예: MODE.SNGL / AVERAGE / ...", key="q3")
 if q3:
-    if q3.strip().upper() == "87"]:
+    if q3.strip().upper() == "87":
         st.success("정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
     else:
         st.error("최빈값은 MODE.SNGL 함수입니다.")
