@@ -1,280 +1,213 @@
 import streamlit as st
-import pandas as pd
 
 # -------------------------------
 # 기본 설정
 # -------------------------------
 st.set_page_config(
-    page_title="통계 x 엑셀 연습실",
+    page_title="통계 × 엑셀 함수 수업 안내",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
 )
 
-st.title("📊 통계 x 엑셀 함수 연습실")
-st.caption("중학교 3학년용 · 통계 배우고 엑셀 함수로 계산해보기 · by 최은정 선생님")
+st.title("📊 통계 × 엑셀 함수 실습 안내")
+st.caption("중학교 3학년 · 통계 배우고 엑셀로 직접 계산해 보는 수업")
 
 # -------------------------------
-# 유틸 함수들
-# -------------------------------
-def create_dataframe_from_text(raw_text: str) -> pd.DataFrame:
-    if not raw_text:
-        return pd.DataFrame(columns=["값"])
-
-    lines = [line.strip() for line in raw_text.splitlines() if line.strip() != ""]
-    numbers = []
-
-    for line in lines:
-        clean = line.replace(",", "")
-        try:
-            value = float(clean)
-            numbers.append(value)
-        except ValueError:
-            continue
-
-    if len(numbers) == 0:
-        return pd.DataFrame(columns=["값"])
-
-    return pd.DataFrame({"값": numbers})
-
-
-def get_excel_range(col_letter: str, start_row: int, count: int) -> str:
-    if count <= 0:
-        return f"{col_letter}{start_row}:{col_letter}{start_row}"
-    end_row = start_row + count - 1
-    return f"{col_letter}{start_row}:{col_letter}{end_row}"
-
-
-def calculate_stats(df: pd.DataFrame) -> dict:
-    if df.empty:
-        return {}
-
-    s = df["값"].dropna()
-    if s.empty:
-        return {}
-
-    desc = {}
-    desc["개수"] = int(s.count())
-    desc["합계"] = float(s.sum())
-    desc["평균"] = float(s.mean())
-    desc["중앙값"] = float(s.median())
-    desc["최솟값"] = float(s.min())
-    desc["최댓값"] = float(s.max())
-    desc["표준편차"] = float(s.std(ddof=1))
-
-    try:
-        value_counts = s.value_counts()
-        max_count = value_counts.max()
-        modes = list(value_counts[value_counts == max_count].index)
-        desc["최빈값"] = modes
-    except Exception:
-        desc["최빈값"] = []
-
-    return desc
-
-
-# -------------------------------
-# 사이드바 안내
+# 사이드바 – 전체 수업 흐름
 # -------------------------------
 with st.sidebar:
-    st.header("🧭 사용 안내")
+    st.header("🧭 수업 흐름")
     st.markdown(
         """
-### ✔ 수업 흐름
-1. **데이터 입력하기**
-2. **통계량 직접 계산**
-3. **엑셀 함수와 비교**
-4. **그래프로 데이터 분석**
-5. **엑셀 함수 요약표로 복습**
+1. **통계 개념 복습**  
+   - 평균, 분산, 표준편차가 무엇인지 다시 확인  
 
-### ✔ 수업 목표
-- 통계 개념(평균·분산·표준편차) 이해하기  
-- 엑셀 함수로 실제 계산하는 방법 익히기  
-- 데이터 분석의 기본 구조 체험하기  
+2. **엑셀 실습 파일 열기**  
+   - `통계데이터실습.xlsx` (또는 선생님이 준 파일 이름)  
+   - 시트: `실습데이터1`, `실습데이터2`, `수학 중간고사`, `수학 기말고사` 등 활용  
+
+3. **엑셀 함수로 직접 계산**  
+   - SUM, AVERAGE, VAR.P, STDEV.P 등 사용  
+
+4. **결과 해석 & 비교**  
+   - 반의 성적 분포, 생활 데이터 패턴 해석하기  
+
+💡 이 웹앱은 **설명·정리·퀴즈 전용**이고,  
+실제 계산과 그래프 그리기는 **엑셀에서** 합니다.
         """
     )
-
-# 세션 데이터 저장
-if "data_df" not in st.session_state:
-    st.session_state["data_df"] = pd.DataFrame(columns=["값"])
 
 # -------------------------------
 # 탭 구성
 # -------------------------------
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
+tab1, tab2, tab3, tab4 = st.tabs(
     [
-        "1️⃣ 데이터 만들기",
-        "2️⃣ 통계 & 엑셀 함수",
-        "3️⃣ 그래프 그리기",
-        "4️⃣ 미션 & 생각해보기",
-        "5️⃣ 엑셀 함수 요약 & 개념 정리 📘"
+        "1️⃣ 수업 안내 & 실습파일 구조",
+        "2️⃣ 엑셀 함수 도구 설명 📘",
+        "3️⃣ 실습 단계별 안내 ✅",
+        "4️⃣ 개념 & 함수 퀴즈 🎯",
     ]
 )
 
 # -------------------------------
-# 1️⃣ 데이터 만들기 탭
+# 1️⃣ 수업 안내 & 실습파일 구조
 # -------------------------------
 with tab1:
-    st.subheader("1️⃣ 데이터 만들기 📝")
+    st.subheader("1️⃣ 수업 목적 & 실습 파일 구조 안내")
 
-    col1, col2 = st.columns(2)
+    st.markdown(
+        """
+### 🎯 수업의 큰 목표
 
-    with col1:
-        sample_btn = st.button("예시 데이터 20개 불러오기 🎁")
+1. **통계 개념 이해하기**
+   - 평균(average)
+   - 분산(variance)
+   - 표준편차(standard deviation)
 
-    default_text = ""
-    if sample_btn:
-        default_text = "\n".join(
-            ["75", "88", "92", "61", "70", "84", "95", "100", "68", "73",
-             "77", "82", "89", "90", "55", "60", "65", "78", "85", "91"]
-        )
+2. **엑셀로 통계값 계산하는 방법 익히기**
+   - 기본 함수: `=SUM()`, `=AVERAGE()`, `=COUNT()`, `=SQRT()`
+   - 분산/표준편차 함수: `=VAR.P()`, `=VAR.S()`, `=STDEV.P()`, `=STDEV.S()`
 
-    raw_text = st.text_area(
-        "📥 숫자 데이터 입력 (한 줄에 하나씩 입력하세요)",
-        value=default_text,
-        height=250
+3. **실제 데이터(시험 점수, 생활 데이터 등)를 해석해 보기**
+   - “우리 반 시험 결과는 어떤 특징이 있을까?”
+   - “나의 공부/수면/운동 패턴은 어떨까?”
+
+---
+
+### 📂 엑셀 실습 파일(예: `통계데이터실습.xlsx`) 구조 예시
+
+> *파일 이름과 시트 구성은 선생님이 나눠준 엑셀 파일을 기준으로 합니다.*
+
+- **시트 ① `실습데이터1`**
+  - 간단한 숫자 데이터(점수, 키 등)가 들어 있음  
+  - 목적: **SUM, AVERAGE, 최소/최대, VAR.P, STDEV.P** 함수 연습
+
+- **시트 ② `실습데이터2`**
+  - `값`, `편차`, `편차²`, `분산`, `표준편차` 등을 **직접 수식으로 계산**해 보는 시트  
+  - 목적: *공식으로 먼저 계산 → 엑셀 함수로 다시 계산 → 두 결과 비교*
+
+- **시트 ③ `수학 중간고사`**
+  - 반 학생들의 중간고사 점수 데이터  
+  - 목적: **반 평균, 분산, 표준편차**를 구하고  
+    “어느 반이 점수가 더 고르게 나왔는지” 해석하기
+
+- **시트 ④ `수학 기말고사`**
+  - 기말고사 점수 데이터  
+  - 목적: 중간·기말 결과를 비교하여  
+    “성적이 어떻게 변했는지” 통계적으로 이야기해 보기
+
+---
+
+### ✏️ 준비물 체크리스트
+
+- 📁 선생님이 나눠준 **엑셀 실습 파일**
+- 💻 엑셀(또는 구글 스프레드시트 등)
+- 🧠 통계 개념(평균·분산·표준편차) 기본 지식
+        """
     )
 
-    if st.button("데이터 불러오기 / 업데이트 🔄"):
-        st.session_state["data_df"] = create_dataframe_from_text(raw_text)
-
-    with col2:
-        st.markdown("#### 🔍 현재 데이터")
-        if not st.session_state["data_df"].empty:
-            st.dataframe(st.session_state["data_df"])
-        else:
-            st.info("데이터가 없습니다.")
-
-    st.markdown("---")
-    if not st.session_state["data_df"].empty:
-        csv_data = st.session_state["data_df"].to_csv(index=False).encode("utf-8-sig")
-        st.download_button(
-            "📥 CSV 파일 다운로드",
-            data=csv_data,
-            file_name="통계데이터.csv",
-            mime="text/csv",
-        )
-
-
 # -------------------------------
-# 2️⃣ 통계 & 엑셀 함수 탭
+# 2️⃣ 엑셀 함수 도구 설명 📘
 # -------------------------------
 with tab2:
-    st.subheader("2️⃣ 계산된 통계값 + 엑셀 함수 비교 🔢")
+    st.subheader("2️⃣ <엑셀 함수 도구 설명>")
 
-    df = st.session_state["data_df"]
-    if df.empty:
-        st.warning("먼저 데이터를 입력해 주세요!")
-    else:
-        stats = calculate_stats(df)
+    st.markdown("#### 🔹 합계 / 평균 / 제곱 / 제곱근")
 
-        table = pd.DataFrame(
-            {
-                "통계량": [
-                    "데이터 개수",
-                    "합계",
-                    "평균",
-                    "중앙값",
-                    "최솟값",
-                    "최댓값",
-                    "표준편차(STDEV.S)",
-                    "최빈값",
-                ],
-                "값": [
-                    stats["개수"],
-                    stats["합계"],
-                    round(stats["평균"], 2),
-                    stats["중앙값"],
-                    stats["최솟값"],
-                    stats["최댓값"],
-                    round(stats["표준편차"], 2),
-                    ", ".join(map(str, stats["최빈값"])),
-                ],
-            }
-        )
+    st.code(
+        """합계 구하기
+=SUM(범위)
 
-        st.dataframe(table, use_container_width=True)
+평균 구하기 (직접)
+=(합계 셀)/COUNT(범위)
 
-        st.markdown("### 🧮 엑셀에서 동일 계산을 할 때 사용하는 함수")
+평균 구하기 (함수)
+=AVERAGE(범위)
 
-        colA, colB = st.columns(2)
+제곱 구하기
+=(셀)^2
 
-        colA.markdown("#### ✔ 기본 함수")
-        colA.code("=SUM(범위)")
-        colA.code("=AVERAGE(범위)")
-        colA.code("=MEDIAN(범위)")
-        colA.code("=MIN(범위)")
-        colA.code("=MAX(범위)")
+제곱근 구하기
+=SQRT(셀)""",
+        language="text",
+    )
 
-        colB.markdown("#### ✔ 분산 / 표준편차")
-        colB.code("=VAR.P(범위)   // 모집단 분산")
-        colB.code("=VAR.S(범위)   // 표본 분산")
-        colB.code("=STDEV.P(범위) // 모집단 표준편차")
-        colB.code("=STDEV.S(범위) // 표본 표준편차")
+    st.markdown("---")
+    st.markdown("#### 🔹 편차 / 분산")
 
+    st.code(
+        """편차
+= (변량) - (평균)
 
-# -------------------------------
-# 3️⃣ 그래프 그리기 탭
-# -------------------------------
-with tab3:
-    st.subheader("3️⃣ 그래프로 데이터 보기 📊")
+분산 직접 구하기
+= (편차 제곱 총합) / COUNT(범위)
 
-    df = st.session_state["data_df"]
+모집단 분산 함수
+=VAR.P(범위)
 
-    if df.empty:
-        st.warning("데이터가 없습니다. 1️⃣ 탭에서 입력하세요.")
-    else:
-        chart_type = st.radio(
-            "📌 그래프 선택",
-            ["막대그래프(도수분포)", "꺾은선그래프", "정렬된 데이터 보기"]
-        )
-
-        if chart_type == "막대그래프(도수분포)":
-            counts = df["값"].value_counts().sort_index()
-            st.bar_chart(counts)
-
-        elif chart_type == "꺾은선그래프":
-            st.line_chart(df["값"])
-
-        else:
-            st.dataframe(df.sort_values("값").reset_index(drop=True))
-
-
-# -------------------------------
-# 4️⃣ 미션 & 생각해보기
-# -------------------------------
-with tab4:
-    st.subheader("4️⃣ 미션 & 생각해보기 🎯")
+표본 분산 함수
+=VAR.S(범위)""",
+        language="text",
+    )
 
     st.markdown(
         """
-### 🧩 미션 1. 우리 반 데이터 분석하기
-1. 점수 등 데이터를 모아 1️⃣ 탭에 입력  
-2. 2️⃣에서 통계와 엑셀 함수 비교  
-3. 3️⃣에서 그래프로 특징 분석하기  
-4. “내 데이터의 특징 한 줄 요약” 작성하기  
-
----
-
-### 💭 생각해보기 질문
-- 평균과 중앙값이 크게 다를 때는 어떤 경우일까?  
-- 왜 표본 분산 / 모집단 분산이 나뉠까?  
-- 표준편차가 작다는 것은 어떤 의미일까?  
-
----
+> 📎 **표본 자료란?**  
+> 전체 자료의 수가 너무 많아서 전부 조사하기 어려울 때,  
+> 그중 **일부만 뽑아서 조사한 자료**를 말합니다.  
+> 뽑은 일부 자료로 전체(모집단)의 모습을 **추측**하거나  
+> **대표값**으로 활용합니다.
         """
     )
 
+    st.markdown("---")
+    st.markdown("#### 🔹 표준편차")
 
-# -------------------------------
-# 5️⃣ 엑셀 함수 요약 & 개념 정리 (요청하신 새 페이지)
-# -------------------------------
-with tab5:
-    st.subheader("5️⃣ 엑셀 함수 요약 & 개념 정리 📘")
+    st.code(
+        """표준편차 직접 구하기
+=SQRT(분산)
+
+모집단 표준편차 함수
+=STDEV.P(범위)
+
+표본 표준편차 함수
+=STDEV.S(범위)""",
+        language="text",
+    )
+
+    st.markdown("---")
+    st.markdown("#### 🔹 용어 & 기호 정리")
 
     st.markdown(
         """
-### 📌 <엑셀 함수 도구 설명>
+| 한국어      | 영어                | 엑셀 함수 예시       | 비고                     |
+|------------|---------------------|----------------------|--------------------------|
+| 평균       | average             | `=AVERAGE(범위)`     |                          |
+| 분산       | variation (variance)| `=VAR.P(범위)`       | 모집단 분산              |
+| 표준편차   | standard deviation  | `=STDEV.P(범위)`     | 모집단 표준편차          |
+
+- `P` 는 **모집단(Population)** 을 의미  
+- `S` 는 **표본집단(Sample)** 을 의미  
+        """
+    )
+
+# -------------------------------
+# 3️⃣ 실습 단계별 안내 ✅
+# -------------------------------
+with tab3:
+    st.subheader("3️⃣ 엑셀에서 따라 하는 실습 단계 안내 ✅")
+
+    st.markdown(
+        """
+### 🔰 STEP 1. 실습 파일 열기
+1. `통계데이터실습.xlsx` 파일을 연다.  
+2. `실습데이터1` 시트로 이동한다.
 
 ---
 
-#### 🟦 **합계**
+### 🔰 STEP 2. 기본 통계 함수 연습 (실습데이터1)
+
+1. 데이터가 들어 있는 범위를 확인한다. (예: `B2:B31`)  
+2. **합계** 셀에 다음과 같이 입력  
+   ```excel
+   =SUM(B2:B31)
