@@ -241,7 +241,7 @@ st.markdown("---")
 st.markdown("Q3. 최빈값은? \n가장 많이 나온 점수를 구하는 함수 이름은?")
 q3 = st.text_input("예: MODE.SNGL / AVERAGE / ...", key="q3")
 if q3:
-    if q3.strip().upper() == "MODE.SNGL", "MODE"":
+    if q3.strip().upper() == ["MODE.SNGL", "MODE"]:
         st.success("정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
     else:
         st.error("최빈값은 MODE.SNGL 함수입니다.")
@@ -253,7 +253,7 @@ st.markdown("---")
 st.markdown("Q4. 분산은? \n점수들이 평균에서 얼마나 퍼져 있는지를 나타내는 '표본 분산'을 구하는 함수 이름은?")
 q4 = st.text_input("예: VAR.S / STDEV.S / ...", key="q4")
 if q4:
-    if q4.strip().upper() == "VAR.S", "VAR":
+    if q4.strip().upper() == ["VAR.S", "VAR"]:
         st.success("정답! 분산은 VAR.S 함수로 구합니다.")
     else:
         st.error("분산(표본)을 구할 때는 VAR.S 함수를 주로 사용합니다.")
