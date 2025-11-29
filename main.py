@@ -217,10 +217,10 @@ st.markdown("엑셀 시트에서 사용할 함수 이름을 맞혀 보세요. (�
 st.markdown("Q1. 전체평균은? \n수학 점수의 전체 평균을 구하는 함수 이름은?")
 q1 = st.text_input("예: AVERAGE / MAX / MIN 중 하나", key="q1")
 if q1:
-if q1.strip().upper() == "AVERAGE":
-st.success("정답! 전체 평균은 AVERAGE 함수로 구합니다.")
-else:
-st.error("전체 평균은 AVERAGE 함수로 구합니다.")
+    if q1.strip().upper() == "AVERAGE":
+        st.success("정답! 전체 평균은 AVERAGE 함수로 구합니다.")
+    else:
+        st.error("전체 평균은 AVERAGE 함수로 구합니다.")
 
 st.markdown("---")
 
@@ -229,10 +229,10 @@ st.markdown("---")
 st.markdown("Q2. 중간값은? \n점수를 작은 순서대로 정렬했을 때 '가운데 값'을 구하는 함수 이름은?")
 q2 = st.text_input("예: MEDIAN / MODE.SNGL / ...", key="q2")
 if q2:
-if q2.strip().upper() == "MEDIAN":
-st.success("정답! 중간값은 MEDIAN 함수로 구합니다.")
-else:
-st.error("중간값은 MEDIAN 함수입니다.")
+    if q2.strip().upper() == "MEDIAN":
+        st.success("정답! 중간값은 MEDIAN 함수로 구합니다.")
+    else:
+        st.error("중간값은 MEDIAN 함수입니다.")
 
 st.markdown("---")
 
@@ -241,10 +241,10 @@ st.markdown("---")
 st.markdown("Q3. 최빈값은? \n가장 많이 나온 점수를 구하는 함수 이름은?")
 q3 = st.text_input("예: MODE.SNGL / AVERAGE / ...", key="q3")
 if q3:
-if q3.strip().upper() in ["MODE.SNGL", "MODE"]:
-st.success("정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
-else:
-st.error("최빈값은 MODE.SNGL 함수입니다.")
+    if q3.strip().upper() == "MODE.SNGL", "MODE"":
+        st.success("정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
+    else:
+        st.error("최빈값은 MODE.SNGL 함수입니다.")
 
 st.markdown("---")
 
@@ -253,10 +253,10 @@ st.markdown("---")
 st.markdown("Q4. 분산은? \n점수들이 평균에서 얼마나 퍼져 있는지를 나타내는 '표본 분산'을 구하는 함수 이름은?")
 q4 = st.text_input("예: VAR.S / STDEV.S / ...", key="q4")
 if q4:
-if q4.strip().upper() in ["VAR.S", "VAR"]:
-st.success("정답! 분산은 VAR.S 함수로 구합니다.")
-else:
-st.error("분산(표본)을 구할 때는 VAR.S 함수를 주로 사용합니다.")
+    if q4.strip().upper() == "VAR.S", "VAR":
+        st.success("정답! 분산은 VAR.S 함수로 구합니다.")
+    else:
+        st.error("분산(표본)을 구할 때는 VAR.S 함수를 주로 사용합니다.")
 
 st.markdown("---")
 
@@ -265,10 +265,10 @@ st.markdown("---")
 st.markdown("Q5. 성적(90점 이상)은 몇 명인가? \n90점 이상 학생 수를 셀 때 사용할 함수 이름은?")
 q5 = st.text_input("예: COUNT / COUNTIF / SUM", key="q5")
 if q5:
-if q5.strip().upper() == "COUNTIF":
-st.success("정답! 조건이 있을 때는 COUNTIF 함수로 개수를 셉니다.")
-else:
-st.error("조건을 만족하는 개수를 셀 때는 COUNTIF 함수를 사용합니다.")
+    if q5.strip().upper() == "COUNTIF":
+        st.success("정답! 조건이 있을 때는 COUNTIF 함수로 개수를 셉니다.")
+    else:
+        st.error("조건을 만족하는 개수를 셀 때는 COUNTIF 함수를 사용합니다.")
 
 st.markdown("---")
 
@@ -277,10 +277,10 @@ st.markdown("---")
 st.markdown("Q6. 59점 이하는 몇 명인가? \n59점 이하 학생 수를 셀 때도 같은 함수 이름을 쓰겠죠?")
 q6 = st.text_input("예: COUNT / COUNTIF / SUM", key="q6")
 if q6:
-if q6.strip().upper() == "COUNTIF":
-st.success("정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,"<=59")")
-else:
-st.error("조건이 있는 개수 세기는 모두 COUNTIF 함수입니다.")
+    if q6.strip().upper() == "COUNTIF":
+        st.success("정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,"<=59")")
+    else:
+        st.error("조건이 있는 개수 세기는 모두 COUNTIF 함수입니다.")
 
 st.markdown("---")
 st.caption("통계 x 엑셀 실습실: 평균 → 편차 → 분산을 엑셀로 연결해 보는 수업용 앱입니다.")
