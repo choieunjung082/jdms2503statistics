@@ -64,6 +64,8 @@ df_answer["편차"] = df_answer["수학"] - mean
 df_answer["편차의 제곱"] = df_answer["편차"] ** 2
 df_answer["등수"] = scores.rank(ascending=False, method="min").astype(int)
 
+import streamlit.components.v1 as components
+
 # -------------------------------
 # 사이드바: 수업 순서 안내
 # -------------------------------
@@ -98,37 +100,41 @@ with st.sidebar:
     )
     st.markdown("---")
     st.caption("TIP : 교사는 필요할 때만 정답(편차·등수) 표를 펼쳐서 확인하세요.")
-
 # -------------------------------
 # 1. 수학 점수 데이터 보기
 # -------------------------------
 st.subheader("1. 수학 점수 데이터 보기")
 
-st.write("엑셀에서 B열에 그대로 입력해서 사용할 예시 점수입니다.")
+# 기본 예시 점수는 앱 안에서 한 번 보여주기
+st.write("엑셀·구글 시트에 옮겨서 사용할 예시 수학 점수입니다.")
 st.dataframe(df, use_container_width=True)
-st.info("엑셀에서는 보통 A열에 번호, B열에 수학 점수를 입력한 뒤 활동을 시작합니다.")
+st.info("구글 시트에서는 A열에 번호, B열에 수학, C열에 편차, D열에 편차의 제곱을 두고 활동합니다.")
 
-# 엑셀 모양으로 보여줄 표: 편차 열과 맨 아래 평균 행 추가
-df_display = df.copy()
-df_display["편차"] = ""  # 학생이 엑셀에서 직접 계산할 열
+# 학생들이 직접 입력할 구글 시트 URL
+sheet_url = "https://docs.google.com/spreadsheets/d/1j1XreiCNo-A07oH595yMF4ZNhNyFW04whArRgaNIugs/edit?usp=sharing"
 
-df_display["번호"] = df_display["번호"].astype(str)
-df_display["수학"] = df_display["수학"].astype(str)
+st.markdown("### 구글 시트에서 직접 평균·편차 계산해 보기")
+st.markdown(
+    """
+아래에 연결된 구글 시트에서
 
-# 맨 아래에 '평균' 행 추가 (학생이 B35 셀에 =AVERAGE(B2:B34) 입력)
-df_display.loc[len(df_display)] = ["평균", "", ""]
-
-st.write("엑셀에서 사용할 예시 점수 표입니다. 맨 아래 행에 평균을 직접 구해 보세요.")
-st.dataframe(df_display, use_container_width=True)
-
-st.info(
-    "엑셀에서는 A열에 번호, B열에 수학, C열에 편차를 두고, "
-    "맨 아래 '평균' 행의 B35 셀에 =AVERAGE(B2:B34)를 입력하도록 안내합니다."
+- B열에 점수를 확인하고  
+- 맨 아래 셀에 `=AVERAGE(B2:B34)` 로 **전체 평균**을 직접 구한 뒤  
+- C열에 `=B2-$B$35` 와 같이 **편차**,  
+- D열에 `=C2^2` 로 **편차의 제곱**을 계산해 보세요.
+"""
 )
 
+# 새 창으로 열 수 있는 링크도 제공
+st.markdown(f"[구글 시트를 새 창으로 열기]({sheet_url})")
+
+# 앱 안에 바로 시트를 임베드
+components.iframe(sheet_url, height=600, scrolling=True)
+
+# 교사용 정답 표
 with st.expander("정답 확인용 (편차·편차의 제곱·등수까지 보기)"):
     st.dataframe(df_answer, use_container_width=True)
-    st.caption("수업 중에는 닫아두고, 교사용 확인용으로만 쓰면 좋습니다.")
+    st.caption("수업 중에는 닫아두고, 교사용 확인용으로만 사용하면 좋습니다.")
 
 # -------------------------------
 # 2. 엑셀에서 평균·편차·편차의 제곱 계산하기
