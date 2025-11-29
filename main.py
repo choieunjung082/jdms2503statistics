@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
 
@@ -72,10 +73,10 @@ with st.sidebar:
     st.markdown(
         """
 ### ① 점수 데이터 확인하기  
-- 아래 표의 **번호–수학 점수**를 엑셀에 그대로 입력
+- 아래 표의 번호–수학 점수를 엑셀에 그대로 입력
 
 ### ② 전체 평균 구하기  
-- `=AVERAGE(B2:B34)` 로 **전체 평균** 계산하기
+- `=AVERAGE(B2:B34)` 로 전체 평균 계산하기
 
 ### ③ 편차 계산하기  
 - C열에 `편차 = 점수 - 전체평균`  
@@ -85,72 +86,77 @@ with st.sidebar:
 - D열에 `=C2^2` 입력 후 D34까지 자동 채우기
 
 ### ⑤ 분산 개념 연결하기  
-- 편차의 제곱 평균이 **분산**  
+- 편차의 제곱 평균이 분산  
 - 엑셀에서 `=VAR.S(B2:B34)` 로 확인하기
 
 ### ⑥ 엑셀 함수표 보기  
 - 평균 / 중간값 / 최빈값 / 분산 / COUNTIF 정리표
 
 ### ⑦ 엑셀 함수 미니퀴즈 풀기  
-- 함수 이름을 맞혀 보며 정리 ✏️
+- 함수 이름을 맞혀 보며 정리
         """
     )
     st.markdown("---")
-    st.caption("TIP : 교사는 필요할 때만 정답(편차·등수) 표를 펼쳐서 확인하세요 👀")
+    st.caption("TIP : 교사는 필요할 때만 정답(편차·등수) 표를 펼쳐서 확인하세요.")
 
 # -------------------------------
 # 1. 수학 점수 데이터 보기
 # -------------------------------
-st.subheader("1️⃣ 수학 점수 데이터 보기")
+st.subheader("1. 수학 점수 데이터 보기")
 
-st.write("엑셀에서 B열에 그대로 입력해서 사용할 **예시 점수**입니다.")
+st.write("엑셀에서 B열에 그대로 입력해서 사용할 예시 점수입니다.")
 st.dataframe(df, use_container_width=True)
-st.info("엑셀에서는 보통 A열에 `번호`, B열에 `수학` 점수를 입력한 뒤 활동을 시작합니다. 📘")
+st.info("엑셀에서는 보통 A열에 번호, B열에 수학 점수를 입력한 뒤 활동을 시작합니다.")
 
-with st.expander("정답 확인용 🔐 (편차·편차의 제곱·등수까지 보기)"):
+with st.expander("정답 확인용 (편차·편차의 제곱·등수까지 보기)"):
     st.dataframe(df_answer, use_container_width=True)
-    st.caption("수업 중에는 닫아두고, 교사용 확인용으로만 쓰면 좋아요 🙂")
+    st.caption("수업 중에는 닫아두고, 교사용 확인용으로만 쓰면 좋습니다.")
 
 # -------------------------------
 # 2. 엑셀에서 평균·편차·편차의 제곱 계산하기
 # -------------------------------
-st.subheader("2️⃣ 엑셀에서 평균·편차·편차의 제곱 계산하기 💻")
+st.subheader("2. 엑셀에서 평균·편차·편차의 제곱 계산하기")
 
 st.markdown(
     """
-#### ① 전체 평균 구하기
+(1) 전체 평균 구하기  
 - B열에 점수가 `B2:B34` 범위에 있다고 가정합니다.  
-- 예를 들어 **B36 셀**에 다음 수식을 입력합니다.
+- 예를 들어 B36 셀에 다음 수식을 입력합니다.
 
 ```excel
 =AVERAGE(B2:B34)
-② 각 점수의 편차 구하기
+
+
+(2) 각 점수의 편차 구하기
+
 C2 셀에 다음 수식을 입력합니다.
 
-excel
-코드 복사
 =B2-$B$36
+
+
 채우기 핸들로 C34까지 드래그하여 복사합니다.
 
-이렇게 하면 각 점수 - 전체 평균 이 되어 편차가 완성됩니다.
+이렇게 하면 각 점수 - 전체 평균이 되어 편차가 완성됩니다.
 
-③ 편차의 제곱 구하기
+(3) 편차의 제곱 구하기
+
 D2 셀에 다음 수식을 입력합니다.
 
-excel
-코드 복사
 =C2^2
+
+
 마찬가지로 D34까지 드래그하여 복사합니다.
 
 이렇게 평균 → 편차 → 편차의 제곱 → 분산으로 이어지는 흐름을
-엑셀로 직접 계산해 보면서 통계 개념을 연결해 봅니다. 📈
+엑셀로 직접 계산해 보면서 통계 개념을 연결해 봅니다.
 """
 )
 
 -------------------------------
 3. 엑셀 함수 정리표
 -------------------------------
-st.subheader("3️⃣ 엑셀에서 똑같이 계산해 보기 📑")
+
+st.subheader("3. 엑셀에서 똑같이 계산해 보기")
 
 st.markdown(
 """
@@ -199,75 +205,82 @@ excel_table = pd.DataFrame(
 st.dataframe(excel_table, use_container_width=True)
 
 -------------------------------
-4. 엑셀 함수 미니 퀴즈 🎮
+4. 엑셀 함수 미니 퀴즈
 -------------------------------
-st.subheader("4️⃣ 엑셀 함수 미니 퀴즈 🎮")
 
-st.markdown("엑셀 시트에서 사용할 함수 이름을 맞혀 보세요. (영어로 적어 봅시다!)")
+st.subheader("4. 엑셀 함수 미니 퀴즈")
+
+st.markdown("엑셀 시트에서 사용할 함수 이름을 맞혀 보세요. (영어로 적어 봅니다.)")
 
 Q1 전체 평균
+
 st.markdown("Q1. 전체평균은? \n수학 점수의 전체 평균을 구하는 함수 이름은?")
 q1 = st.text_input("예: AVERAGE / MAX / MIN 중 하나", key="q1")
 if q1:
 if q1.strip().upper() == "AVERAGE":
-st.success("✅ 정답! 전체 평균은 AVERAGE 함수로 구합니다.")
+st.success("정답! 전체 평균은 AVERAGE 함수로 구합니다.")
 else:
-st.error("😢 아쉬워요. 전체 평균은 AVERAGE 함수로 구합니다.")
+st.error("전체 평균은 AVERAGE 함수로 구합니다.")
 
 st.markdown("---")
 
 Q2 중간값
+
 st.markdown("Q2. 중간값은? \n점수를 작은 순서대로 정렬했을 때 '가운데 값'을 구하는 함수 이름은?")
 q2 = st.text_input("예: MEDIAN / MODE.SNGL / ...", key="q2")
 if q2:
 if q2.strip().upper() == "MEDIAN":
-st.success("✅ 정답! 중간값은 MEDIAN 함수로 구합니다.")
+st.success("정답! 중간값은 MEDIAN 함수로 구합니다.")
 else:
-st.error("중간값은 MEDIAN 함수예요. 다시 한 번 떠올려 봅시다 🙂")
+st.error("중간값은 MEDIAN 함수입니다.")
 
 st.markdown("---")
 
 Q3 최빈값
+
 st.markdown("Q3. 최빈값은? \n가장 많이 나온 점수를 구하는 함수 이름은?")
 q3 = st.text_input("예: MODE.SNGL / AVERAGE / ...", key="q3")
 if q3:
 if q3.strip().upper() in ["MODE.SNGL", "MODE"]:
-st.success("✅ 정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
+st.success("정답! 최빈값은 MODE.SNGL 함수로 구합니다.")
 else:
-st.error("최빈값은 MODE.SNGL 함수로 계산합니다.")
+st.error("최빈값은 MODE.SNGL 함수입니다.")
 
 st.markdown("---")
 
 Q4 분산
+
 st.markdown("Q4. 분산은? \n점수들이 평균에서 얼마나 퍼져 있는지를 나타내는 '표본 분산'을 구하는 함수 이름은?")
 q4 = st.text_input("예: VAR.S / STDEV.S / ...", key="q4")
 if q4:
 if q4.strip().upper() in ["VAR.S", "VAR"]:
-st.success("✅ 정답! 분산은 VAR.S 함수로 구합니다.")
+st.success("정답! 분산은 VAR.S 함수로 구합니다.")
 else:
 st.error("분산(표본)을 구할 때는 VAR.S 함수를 주로 사용합니다.")
 
 st.markdown("---")
 
 Q5 90점 이상
+
 st.markdown("Q5. 성적(90점 이상)은 몇 명인가? \n90점 이상 학생 수를 셀 때 사용할 함수 이름은?")
 q5 = st.text_input("예: COUNT / COUNTIF / SUM", key="q5")
 if q5:
 if q5.strip().upper() == "COUNTIF":
-st.success("✅ 정답! 조건이 있을 때는 COUNTIF 함수로 개수를 셉니다.")
+st.success("정답! 조건이 있을 때는 COUNTIF 함수로 개수를 셉니다.")
 else:
 st.error("조건을 만족하는 개수를 셀 때는 COUNTIF 함수를 사용합니다.")
 
 st.markdown("---")
 
 Q6 59점 이하
+
 st.markdown("Q6. 59점 이하는 몇 명인가? \n59점 이하 학생 수를 셀 때도 같은 함수 이름을 쓰겠죠?")
 q6 = st.text_input("예: COUNT / COUNTIF / SUM", key="q6")
 if q6:
 if q6.strip().upper() == "COUNTIF":
-st.success("✅ 정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,\"<=59\")")
+st.success("정답! 여기서도 COUNTIF 함수입니다. 예: =COUNTIF(B2:B34,"<=59")")
 else:
-st.error("조건이 있는 개수 세기는 모두 COUNTIF 함수입니다!")
+st.error("조건이 있는 개수 세기는 모두 COUNTIF 함수입니다.")
 
 st.markdown("---")
-st.caption("© 통계 x 엑셀 실습실 · 평균 → 편차 → 분산까지 엑셀로 연결해 보는 수업용 앱 🎓")
+st.caption("통계 x 엑셀 실습실: 평균 → 편차 → 분산을 엑셀로 연결해 보는 수업용 앱입니다.")
